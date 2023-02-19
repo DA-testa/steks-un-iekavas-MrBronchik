@@ -1,6 +1,7 @@
 # python3
 
 from collections import namedtuple
+from pathlib import Path
 
 Bracket = namedtuple("Bracket", ["char", "position"])
 
@@ -24,22 +25,25 @@ def find_mismatch(text):
         return "Success"
 
 def main():
-    input_type = input("Enter F to use test files, or I to input brackets: ")
-    if input_type.isdigit():
-        file_num = str(input_type)
+    input_type = input()    #"Enter F to use test files, or I to input brackets: "
+    if input_type[0] == "F":
+        file_num = input()  #"Enter test file number (0-5): "
         input_file_name = f"test/{file_num}"
-        output_file_name = f"{file_num}.a"
-    elif input_type == "F":
-        input_file_name = f"test/{file_num}"
-        output_file_name = f"{file_num}.a"
-    elif input_type == "I":
-        text = input("Enter brackets: ")
+        output_file_name = f"test/{file_num}.a"
+    elif input_type[0] == "I":
+        text = input()  #"Enter brackets: "
         result = find_mismatch(text)
         print(result)
         return
     else:
-        print("Invalid input type.")
-        return
+        file_num = str(input_type)
+        input_file_name = f"test/{file_num}"
+        path = Path(input_file_name)
+        if path.is_file():
+            output_file_name = f"test/{file_num}.a"
+        else:
+            print("Invalid input type.")
+            return
 
     with open(input_file_name, "r") as input_file, open(output_file_name, "w") as output_file:
         text = input_file.read().strip()
@@ -47,5 +51,5 @@ def main():
         output_file.write(str(mismatch))
         print(mismatch)
 
-if __name__ == "__main__":
+if name == "main":
     main()
